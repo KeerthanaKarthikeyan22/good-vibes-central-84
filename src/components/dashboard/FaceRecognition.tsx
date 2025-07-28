@@ -286,27 +286,40 @@ export const FaceRecognition = () => {
           <CardTitle>How to Use</CardTitle>
         </CardHeader>
         <CardContent>
+          <div className="mb-4 p-3 bg-primary/10 border border-primary/20 rounded-lg">
+            <div className="flex items-start gap-2">
+              <AlertCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="font-medium text-primary mb-1">Camera Permission Required</p>
+                <p className="text-sm text-muted-foreground">
+                  Please allow camera access when prompted by your browser/phone. 
+                  This is needed to capture and recognize your face for the alarm feature.
+                </p>
+              </div>
+            </div>
+          </div>
+          
           <div className="grid md:grid-cols-3 gap-4 text-sm">
             <div className="text-center">
               <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
                 1
+              </div>
+              <p className="font-medium">Allow Camera</p>
+              <p className="text-muted-foreground">Grant camera permission when asked</p>
+            </div>
+            <div className="text-center">
+              <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                2
               </div>
               <p className="font-medium">Register Face</p>
               <p className="text-muted-foreground">Start camera and register your face</p>
             </div>
             <div className="text-center">
               <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
-                2
-              </div>
-              <p className="font-medium">Start Alarm</p>
-              <p className="text-muted-foreground">Activate the face unlock alarm</p>
-            </div>
-            <div className="text-center">
-              <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">
                 3
               </div>
-              <p className="font-medium">Show Face</p>
-              <p className="text-muted-foreground">Present your face to stop the alarm</p>
+              <p className="font-medium">Use Alarm</p>
+              <p className="text-muted-foreground">Show your face to stop the alarm</p>
             </div>
           </div>
         </CardContent>
