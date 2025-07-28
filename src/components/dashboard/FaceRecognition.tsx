@@ -172,7 +172,17 @@ export const FaceRecognition = () => {
                   ref={videoRef}
                   autoPlay
                   playsInline
+                  muted
                   className="w-full h-full object-cover"
+                  onLoadedMetadata={() => {
+                    console.log("Video metadata loaded");
+                    if (videoRef.current) {
+                      videoRef.current.play().catch(console.error);
+                    }
+                  }}
+                  onError={(e) => {
+                    console.error("Video error:", e);
+                  }}
                 />
               ) : (
                 <div className="flex items-center justify-center h-full text-muted-foreground">
