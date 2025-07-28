@@ -15,22 +15,59 @@ export const FaceRecognition = () => {
 
   const startCamera = useCallback(async () => {
     try {
+      // Check if getUserMedia is supported
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error("Camera not supported");
+      }
+
+      // Check for permissions first
+      const permissions = await navigator.permissions.query({ name: 'camera' as PermissionName });
+      
+      console.log("Camera permission status:", permissions.state);
+      
+      if (permissions.state === 'denied') {
+        throw new Error("Camera permission denied");
+      }
+
       const mediaStream = await navigator.mediaDevices.getUserMedia({ 
-        video: { width: 640, height: 480 } 
+        video: { 
+          width: { ideal: 640 },
+          height: { ideal: 480 },
+          facingMode: 'user'
+        } 
       });
+      
       setStream(mediaStream);
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
+        videoRef.current.play();
       }
       setIsCapturing(true);
+      
       toast({
         title: "Camera Started",
         description: "Position your face in the center of the frame",
       });
     } catch (error) {
+      console.error("Camera error:", error);
+      
+      let errorMessage = "Unable to access camera.";
+      
+      if (error instanceof Error) {
+        if (error.name === 'NotAllowedError') {
+          errorMessage = "Camera permission denied. Please allow camera access and try again.";
+        } else if (error.name === 'NotFoundError') {
+          errorMessage = "No camera found. Please connect a camera and try again.";
+        } else if (error.name === 'NotSupportedError') {
+          errorMessage = "Camera not supported by your browser.";
+        } else if (error.message === "Camera not supported") {
+          errorMessage = "Your browser doesn't support camera access.";
+        }
+      }
+      
       toast({
         title: "Camera Error",
-        description: "Unable to access camera. Please check permissions.",
+        description: errorMessage,
         variant: "destructive",
       });
     }
