@@ -174,14 +174,30 @@ export const FaceRecognition = () => {
                   playsInline
                   muted
                   className="w-full h-full object-cover"
+                  style={{ transform: 'scaleX(-1)' }}
                   onLoadedMetadata={() => {
                     console.log("Video metadata loaded");
                     if (videoRef.current) {
-                      videoRef.current.play().catch(console.error);
+                      videoRef.current.play().catch((error) => {
+                        console.error("Video play error:", error);
+                        toast({
+                          title: "Video Error",
+                          description: "Failed to start video playback. Try refreshing the page.",
+                          variant: "destructive",
+                        });
+                      });
                     }
                   }}
                   onError={(e) => {
                     console.error("Video error:", e);
+                    toast({
+                      title: "Video Error", 
+                      description: "Camera feed failed to load. Please try again.",
+                      variant: "destructive",
+                    });
+                  }}
+                  onCanPlay={() => {
+                    console.log("Video can play");
                   }}
                 />
               ) : (
